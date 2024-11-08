@@ -7,7 +7,7 @@ const movieSchema = new Schema({
     },
 	language: [{
         type: String, 
-        reuqired: true
+        required: true
     }],
 	duration: {
         type: Number,      // time in seconds
@@ -23,7 +23,7 @@ const movieSchema = new Schema({
     }], 
 	director: {
         type: String, 
-        reuqired: true
+        required: true
     },
 	release_date: {
         type: Date, 
@@ -36,6 +36,6 @@ const movieSchema = new Schema({
 	image: {
 		type: String
 	}
-});
+}, {timestamps: true});
 
 module.exports = model('Movie', movieSchema);

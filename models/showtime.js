@@ -27,6 +27,6 @@ const showtimeSchema = new Schema({
         type: Number, 
         required: true
     }
-});
+}, {timestamps: true});
 
 module.exports = model("Showtime", showtimeSchema);

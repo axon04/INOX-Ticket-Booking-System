@@ -34,7 +34,7 @@ const bookingSchema = new Schema({
         enum: ['booked', 'cancelled'], 
         default: 'booked'
     }
-});
+}, {timestamps: true});
 
 module.exports = model("Booking", bookingSchema);
 

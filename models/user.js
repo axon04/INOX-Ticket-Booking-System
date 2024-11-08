@@ -19,6 +19,6 @@ const userSchema = new Schema({
         enum: ['user', 'admin'], 
         default: 'user' 
     }
-});
+}, {timestamps: true});
 
 module.exports = model('User', userSchema);
