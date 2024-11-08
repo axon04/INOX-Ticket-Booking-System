@@ -25,12 +25,18 @@ const createMovie = async (req, res) => {
 	// get the object from json
 	const {name, language, duration, genre, cast, director, release_date, description,image} = req.body
 	
-	// save to database
+	//create document
+	const newMovie = new Movie(req.body);
 	
-	// return saved object
-	
-	console.log(req.body);
-	res.send(req.body);
+	try {
+		// save to database
+		const savedMovie = await newMovie.save();
+		
+		// return saved object
+		return res.status(201).json(savedMovie);
+	} catch (err) {
+		res.status(500).json({"error" : err});
+	}
 };
 
 const updateMovie = async (req, res) => {

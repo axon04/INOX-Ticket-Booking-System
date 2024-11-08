@@ -14,7 +14,7 @@ const screenSchema = new Schema({
         type: Number,                   
         required: true
     }
-});
+}, {timestamps: true});
 
 module.exports = model('Screen', screenSchema);
 
