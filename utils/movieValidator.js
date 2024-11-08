@@ -35,16 +35,25 @@ class MovieValidator {
         };
     }
 
-    validate(movie) {
+    validate(movie, requestType = 'PUT') {
         const invalidProperties = [];
 
         for (const key in this.validators) {
             const validator = this.validators[key];
             const value = movie[key];
-            const result = validator.validate(value);
-
-            if (!result.valid) {
-                invalidProperties.push({ property: key, message: result.message });
+            // For PUT and POST requests, validate all properties
+            if (requestType === 'PUT' || requestType === 'POST') {
+                const result = validator.validate(value);
+                if (!result.valid) {
+                    invalidProperties.push({ property: key, message: result.message });
+                }
+            } 
+            // For PATCH requests, validate only if the property exists
+            else if (requestType === 'PATCH' && value !== undefined) {
+                const result = validator.validate(value);
+                if (!result.valid) {
+                    invalidProperties.push({ property: key, message: result.message });
+                }
             }
         }
 
