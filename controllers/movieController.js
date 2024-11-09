@@ -3,16 +3,37 @@ const movieValidator = new MovieValidator();
 const Movie = require("../models/movie");
 
 const getAllMovies = async (req, res) => {
-	res.send("get all movies");
+	try{
+		const allMovies = await Movie.find({});
+		return res.status(200).json(allMovies);
+	} catch(err) {
+		console.log(err);
+		return res.status(500).json({"error": "Server issue"})
+	}	
 };
 
 const getMovieByName = async (req, res) => {
-	console.log(req.query);
-	res.send("get movie by name: " + req.query.name);
+	try{
+		const allMovies = await Movie.find({name: req.query.name});
+		return res.status(200).json(allMovies);
+	} catch(err) {
+		console.log(err);
+		return res.status(500).json({"error": "Server issue"})
+	}	
 };
 
 const getMovieById =  async (req, res) => {
-	res.send("get movie by id: " + req.params.id);
+	try{
+		const existingMovie = await Movie.findById(req.params.id);
+		// if no movie exists return
+		if (!existingMovie) { 
+			return res.status(400).json({"error": `No movie exists with id: ${req.params.id}`})
+		}
+		return res.status(200).json(existingMovie);
+	} catch(err) {
+		console.log(err);
+		return res.status(500).json({"error": "Server issue"})
+	}
 };
 
 const createMovie = async (req, res) => {
@@ -117,7 +138,19 @@ const partialUpdateMovie = async (req, res) => {
 }
 
 const deleteMovie = async (req, res) => {
-	res.send("delete movie with id: "  + req.params.id);
+	// find the movie
+	try{
+		const existingMovie = await Movie.findById(req.params.id);
+		// if no movie exists return
+		if (!existingMovie) { 
+			return res.status(400).json({"error": `No movie exists with id: ${req.params.id}`})
+		}
+		await Movie.findByIdAndDelete(req.params.id);
+		return res.status(204).json({"message": "Deleted successfully"});
+	} catch(err) {
+		console.log(err);
+		return res.status(500).json({"error": "Server issue"})
+	}
 };
 
 module.exports = {
