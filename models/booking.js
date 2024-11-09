@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 const movie = require('./movie');
 
 const bookingSchema = new Schema({
-	customer: {
+	user: {
         type: Schema.Types.ObjectId, 
         ref: "User", 
         required: true
